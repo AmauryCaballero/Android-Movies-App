@@ -50,6 +50,19 @@ android {
 }
 
 dependencies {
+    // Lottie
+    implementation(libs.lottie.compose)
+
+    // Room for local storage
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+
+    // Retrofit for API calls
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+
+    // Hilt for dependency injection
+    implementation(libs.hilt.android)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -59,6 +72,8 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+
+    // Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -66,4 +81,10 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    // Mock for unit testing
+    testImplementation(libs.mockk)
+
+    // Coroutines for async operations
+    implementation(libs.kotlinx.coroutines.android)
 }
