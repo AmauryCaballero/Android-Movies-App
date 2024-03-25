@@ -1,9 +1,6 @@
 package com.larrykapija.moviesapp.network.api
 
-import com.larrykapija.moviesapp.network.response.NowPlayingResponse
-import com.larrykapija.moviesapp.network.response.PopularMoviesResponse
-import com.larrykapija.moviesapp.network.response.TopRatedMoviesResponse
-import com.larrykapija.moviesapp.network.response.UpcomingMoviesResponse
+import com.larrykapija.moviesapp.network.response.MovieResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -15,27 +12,27 @@ interface TmdbApiService {
         @Header("Authorization") accessToken: String,
         @Query("language") language: String = "en-US",
         @Query("page") page: Int = 1
-    ): Call<PopularMoviesResponse>
+    ): Call<MovieResponse>
 
     @GET("movie/now_playing")
     fun getNowPlayingMovies(
         @Header("Authorization") accessToken: String,
         @Query("language") language: String = "en-US",
         @Query("page") page: Int = 1
-    ): Call<NowPlayingResponse>
+    ): Call<MovieResponse>
 
     @GET("movie/upcoming")
     fun getUpcomingMovies(
         @Header("Authorization") accessToken: String,
         @Query("language") language: String = "en-US",
         @Query("page") page: Int = 1
-    ): Call<UpcomingMoviesResponse>
+    ): Call<MovieResponse>
 
     @GET("movie/top_rated")
     fun getTopRatedMovies(
         @Header("Authorization") accessToken: String,
         @Query("language") language: String = "en-US",
         @Query("page") page: Int = 1
-    ): Call<TopRatedMoviesResponse>
+    ): Call<MovieResponse>
 
 }

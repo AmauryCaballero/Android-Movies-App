@@ -1,7 +1,10 @@
 package com.larrykapija.moviesapp.network.response
 
+import com.larrykapija.moviesapp.models.Dates
+
 // Response model for popular, now playing, upcoming, and top rated movies
-data class MovieResponse(
+open class MovieResponse(
+    val dates: Dates,
     val page: Int,
     val results: List<Movie>,
     val total_results: Int,
