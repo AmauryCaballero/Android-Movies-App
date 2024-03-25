@@ -10,9 +10,14 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.TileMode
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -45,34 +50,69 @@ fun CurvedBottomNavigationBar(
         )
 
         // Place navigation items
+
         NavigationBar(
             modifier = Modifier
                 .align(Alignment.BottomStart)
-                .padding(0.dp, 0.dp, 0.dp, 10.dp),
+                .padding(0.dp, 0.dp, 0.dp, 10.dp)
+                .fillMaxWidth(),
             containerColor = colorScheme.background.copy(alpha = 0f)
         ) {
             icons.forEachIndexed { index, iconRes ->
                 val iconPainter = painterResource(id = iconRes)
+                val isSelected = selectedIndex == index
+                val iconColor = if (isSelected) colorScheme.primary else colorScheme.tertiary
+
                 NavigationBarItem(
                     icon = {
-                        Icon(
-                            painter = iconPainter,
-                            contentDescription = null,
-                            tint = if (selectedIndex == index) colorScheme.primary else colorScheme.tertiary
-                        )
+                        Box(
+                            modifier = Modifier
+                                .size(80.dp)
+                                .drawBehind {
+                                    if (isSelected) {
+                                        val glowColor = colorScheme.primary.copy(alpha = 0.4f)
+                                        val glowColor2 = colorScheme.primary.copy(alpha = 0.05f)
+                                        val centerX = size.width / 2
+                                        val centerY = size.height / 2
+
+                                        drawCircle(
+                                            brush = Brush.radialGradient(
+                                                colors = listOf(glowColor,glowColor2, Color.Transparent, Color.Transparent),
+                                                center = Offset(centerX, centerY),
+                                                radius = size.minDimension / 1.3f,
+                                            )
+                                        )
+                                    }
+                                }
+                                .graphicsLayer { clip = false },
+                        ) {
+                            Icon(
+                                painter = iconPainter,
+                                contentDescription = null,
+                                tint = iconColor,
+                                modifier = Modifier
+                                    .align(Alignment.Center)
+                                    .size(30.dp)
+                            )
+                        }
                     },
-                    selected = selectedIndex == index,
+                    selected = isSelected,
                     onClick = { onItemSelected(index) },
                     alwaysShowLabel = false,
-                    modifier = Modifier.size(25.dp),
+                    modifier = Modifier,
                     colors = NavigationBarItemDefaults.colors(
                         selectedIconColor = colorScheme.primary,
                         unselectedIconColor = colorScheme.tertiary,
-                        indicatorColor = Color(0x00000000)
+                        indicatorColor = Color.Transparent
                     )
                 )
             }
         }
+
+
+
+
+
     }
 }
 

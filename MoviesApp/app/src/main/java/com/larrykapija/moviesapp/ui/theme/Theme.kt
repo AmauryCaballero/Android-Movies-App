@@ -29,7 +29,7 @@ private val LightColorScheme = lightColorScheme(
     secondary = SecondaryLight,
     onPrimary = TextColorLight,
     onSecondary = TextColorLight,
-    tertiary = TextColorLight
+    tertiary = TertiaryLight
 )
 
 @Composable
