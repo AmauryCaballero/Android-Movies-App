@@ -70,6 +70,8 @@ dependencies {
     // Navigation
     implementation(libs.androidx.navigation.compose)
 
+
+
     // Lottie
     implementation(libs.lottie.compose)
 
@@ -77,9 +79,11 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
 
-    // Retrofit for API calls
-    implementation(libs.retrofit)
-    implementation(libs.converter.gson)
+    // Network
+    implementation(libs.retrofit.v2100)
+    implementation(libs.okhttp)
+    implementation(libs.logging.interceptor)
+    implementation(libs.converter.gson.v2100)
 
     // Hilt for dependency injection
     implementation(libs.hilt.android)
@@ -94,6 +98,7 @@ dependencies {
     implementation(libs.androidx.material3)
 
     // Testing
+    testImplementation(libs.mockwebserver)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
