@@ -36,6 +36,35 @@ class TmdbApiServiceTest {
     }
 
     @Test
+    fun `getMovieDetails returns data successfully`() {
+        val mockResponseJson = """{
+      "id": 278,
+      "title": "The Shawshank Redemption",
+      "overview": "Framed in the 1940s for the double murder...",
+      "poster_path": "/9cqNxx0GxF0bflZmeSMuL5tnGzr.jpg",
+      "backdrop_path": "/kXfqcdQKsToO0OUXHcrrNCHDBzO.jpg",
+      "vote_average": 8.7,
+      "release_date": "1994-09-23",
+      "runtime": 142,
+      "genres": [{"id": 18, "name": "Drama"}, {"id": 80, "name": "Crime"}],
+      "adult": false,
+      "original_language": "en",
+      "original_title": "The Shawshank Redemption",
+      "popularity": 132.266,
+      "video": false,
+      "vote_count": 25837
+    }""".trimIndent()
+
+        mockWebServer.enqueue(MockResponse().setBody(mockResponseJson).setResponseCode(200))
+
+        val response = service.getMovieDetails(movieId = 278, accessToken = apiAccessKey).execute()
+
+        assertNotNull(response.body())
+        assertEquals(278, response.body()?.id)
+        assertEquals("The Shawshank Redemption", response.body()?.title)
+    }
+
+    @Test
     fun `getPopularMovies returns data successfully`() {
         val mockResponseJson = """{
           "page": 1,
