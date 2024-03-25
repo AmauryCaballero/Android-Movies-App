@@ -2,6 +2,7 @@ package com.larrykapija.moviesapp.network.api
 
 import com.larrykapija.moviesapp.network.response.NowPlayingResponse
 import com.larrykapija.moviesapp.network.response.PopularMoviesResponse
+import com.larrykapija.moviesapp.network.response.TopRatedMoviesResponse
 import com.larrykapija.moviesapp.network.response.UpcomingMoviesResponse
 import retrofit2.Call
 import retrofit2.http.GET
@@ -29,4 +30,12 @@ interface TmdbApiService {
         @Query("language") language: String = "en-US",
         @Query("page") page: Int = 1
     ): Call<UpcomingMoviesResponse>
+
+    @GET("movie/top_rated")
+    fun getTopRatedMovies(
+        @Header("Authorization") accessToken: String,
+        @Query("language") language: String = "en-US",
+        @Query("page") page: Int = 1
+    ): Call<TopRatedMoviesResponse>
+
 }
