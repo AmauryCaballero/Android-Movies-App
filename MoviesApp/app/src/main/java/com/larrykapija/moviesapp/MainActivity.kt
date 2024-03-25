@@ -10,37 +10,39 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.larrykapija.moviesapp.ui.navigation.Destinations
+import com.larrykapija.moviesapp.ui.screens.main.MainScreen
+import com.larrykapija.moviesapp.ui.screens.splash.SplashScreen
 import com.larrykapija.moviesapp.ui.theme.MoviesAppTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MoviesAppTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Greeting("Android")
-                }
-            }
+            MainActivityContent()
         }
     }
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+fun MainActivityContent() {
+    AppNavigation()
 }
 
-@Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
-    MoviesAppTheme {
-        Greeting("Android")
+fun AppNavigation() {
+    val navController = rememberNavController()
+
+    NavHost(navController = navController, startDestination = Destinations.SplashScreen ) {
+        composable(Destinations.SplashScreen) {
+            SplashScreen(navController)
+        }
+
+        composable(Destinations.MainScreen) {
+            MainScreen()
+        }
     }
 }
