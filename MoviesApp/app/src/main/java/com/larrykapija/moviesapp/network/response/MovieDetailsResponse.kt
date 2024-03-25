@@ -11,6 +11,13 @@ data class MovieDetails(
     val release_date: String?,
     val runtime: Int?, // Movie duration in minutes
     val genres: List<Genre>,
+    val adult: Boolean,
+    val genre_ids: List<Int>,
+    val original_language: String,
+    val original_title: String,
+    val popularity: Double,
+    val video: Boolean,
+    val vote_count: Int
 )
 
 // Genre model used in MovieDetails
