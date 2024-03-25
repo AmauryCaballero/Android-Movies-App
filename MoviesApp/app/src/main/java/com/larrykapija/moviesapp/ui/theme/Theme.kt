@@ -20,14 +20,16 @@ private val DarkColorScheme = darkColorScheme(
     primary = Primary,
     secondary = SecondaryDark,
     onPrimary = TextColorDark,
-    onSecondary = TextColorDark
+    onSecondary = TextColorDark,
+    tertiary = TertiaryDark,
 )
 
 private val LightColorScheme = lightColorScheme(
     primary = Primary,
     secondary = SecondaryLight,
     onPrimary = TextColorLight,
-    onSecondary = TextColorLight
+    onSecondary = TextColorLight,
+    tertiary = TextColorLight
 )
 
 @Composable
