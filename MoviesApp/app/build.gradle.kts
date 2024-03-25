@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
@@ -7,12 +9,25 @@ android {
     namespace = "com.larrykapija.moviesapp"
     compileSdk = 34
 
+    // Configuration file properties
+    val localProperties = Properties()
+    val localPropertiesFile = rootProject.file("local.properties")
+    if (localPropertiesFile.exists()) {
+        localProperties.load(localPropertiesFile.inputStream())
+    }
+
+    val tmdbApiKey = localProperties.getProperty("tmdb_api_key") ?: ""
+    val tmdbApiAccessKey = localProperties.getProperty("tmdb_api_read_access_token") ?: ""
+
     defaultConfig {
         applicationId = "com.larrykapija.moviesapp"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
+
+        buildConfigField("String", "TMDB_API_KEY", "\"$tmdbApiKey\"")
+        buildConfigField("String", "TMDB_API_ACCESS_KEY", "\"$tmdbApiAccessKey\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -38,6 +53,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
