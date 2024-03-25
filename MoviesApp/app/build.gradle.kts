@@ -73,7 +73,7 @@ dependencies {
 
 
     // Lottie
-    implementation(libs.lottie.compose)
+    implementation(libs.lottie.compose.v640)
 
     // Room for local storage
     implementation(libs.androidx.room.runtime)
