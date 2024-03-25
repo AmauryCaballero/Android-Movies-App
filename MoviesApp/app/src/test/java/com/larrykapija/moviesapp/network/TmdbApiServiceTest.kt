@@ -153,4 +153,43 @@ class TmdbApiServiceTest {
         assertEquals(1011985, response.body()?.results?.get(0)?.id)
         assertEquals("Kung Fu Panda 4", response.body()?.results?.get(0)?.title)
     }
+
+    @Test
+    fun `getTopRatedMovies returns data successfully`() {
+        val mockResponseJson = """
+    {
+      "page": 1,
+      "results": [
+        {
+          "adult": false,
+          "backdrop_path": "/kXfqcdQKsToO0OUXHcrrNCHDBzO.jpg",
+          "genre_ids": [18, 80],
+          "id": 278,
+          "original_language": "en",
+          "original_title": "The Shawshank Redemption",
+          "overview": "Framed in the 1940s for the double murder of his wife and her lover...",
+          "popularity": 132.266,
+          "poster_path": "/9cqNxx0GxF0bflZmeSMuL5tnGzr.jpg",
+          "release_date": "1994-09-23",
+          "title": "The Shawshank Redemption",
+          "video": false,
+          "vote_average": 8.704,
+          "vote_count": 25837
+        }
+      ],
+      "total_pages": 463,
+      "total_results": 9254
+    }
+    """.trimIndent()
+
+        mockWebServer.enqueue(MockResponse().setBody(mockResponseJson).setResponseCode(200))
+
+        val response = service.getTopRatedMovies(apiAccessKey).execute()
+
+        assertNotNull(response.body())
+        assertEquals(1, response.body()?.page)
+        assertEquals(278, response.body()?.results?.get(0)?.id)
+        assertEquals("The Shawshank Redemption", response.body()?.results?.get(0)?.title)
+    }
+
 }
