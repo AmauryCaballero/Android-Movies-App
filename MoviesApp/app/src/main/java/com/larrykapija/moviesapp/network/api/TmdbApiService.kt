@@ -21,4 +21,11 @@ interface TmdbApiService {
         @Query("language") language: String = "en-US",
         @Query("page") page: Int = 1
     ): Call<NowPlayingResponse>
+
+    @GET("movie/upcoming")
+    fun getUpcomingMovies(
+        @Header("Authorization") accessToken: String,
+        @Query("language") language: String = "en-US",
+        @Query("page") page: Int = 1
+    ): Call<UpcomingMoviesResponse>
 }
