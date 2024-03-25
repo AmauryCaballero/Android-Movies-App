@@ -2,6 +2,7 @@ package com.larrykapija.moviesapp.network.api
 
 import com.larrykapija.moviesapp.network.response.NowPlayingResponse
 import com.larrykapija.moviesapp.network.response.PopularMoviesResponse
+import com.larrykapija.moviesapp.network.response.UpcomingMoviesResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Header

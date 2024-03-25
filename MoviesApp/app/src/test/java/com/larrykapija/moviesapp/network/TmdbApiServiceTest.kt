@@ -111,4 +111,46 @@ class TmdbApiServiceTest {
         assertEquals(1011985, response.body()?.results?.get(0)?.id)
         assertEquals("Kung Fu Panda 4", response.body()?.results?.get(0)?.title)
     }
+
+    @Test
+    fun `getUpcomingMovies returns data successfully`() {
+        val mockResponseJson = """
+    {
+      "dates": {
+        "maximum": "2024-04-17",
+        "minimum": "2024-03-27"
+      },
+      "page": 1,
+      "results": [
+        {
+          "adult": false,
+          "backdrop_path": "/1XDDXPXGiI8id7MrUxK36ke7gkX.jpg",
+          "genre_ids": [28, 12, 16, 35, 10751],
+          "id": 1011985,
+          "original_language": "en",
+          "original_title": "Kung Fu Panda 4",
+          "overview": "Po is gearing up to become the spiritual leader...",
+          "popularity": 5263.595,
+          "poster_path": "/wkfG7DaExmcVsGLR4kLouMwxeT5.jpg",
+          "release_date": "2024-03-02",
+          "title": "Kung Fu Panda 4",
+          "video": false,
+          "vote_average": 6.916,
+          "vote_count": 286
+        }
+      ],
+      "total_pages": 43,
+      "total_results": 852
+    }
+    """.trimIndent()
+
+        mockWebServer.enqueue(MockResponse().setBody(mockResponseJson).setResponseCode(200))
+
+        val response = service.getUpcomingMovies(apiAccessKey).execute()
+
+        assertNotNull(response.body())
+        assertEquals(1, response.body()?.page)
+        assertEquals(1011985, response.body()?.results?.get(0)?.id)
+        assertEquals("Kung Fu Panda 4", response.body()?.results?.get(0)?.title)
+    }
 }
