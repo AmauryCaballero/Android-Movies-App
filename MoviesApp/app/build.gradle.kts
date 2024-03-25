@@ -70,8 +70,6 @@ dependencies {
     // Navigation
     implementation(libs.androidx.navigation.compose)
 
-
-
     // Lottie
     implementation(libs.lottie.compose.v640)
 
