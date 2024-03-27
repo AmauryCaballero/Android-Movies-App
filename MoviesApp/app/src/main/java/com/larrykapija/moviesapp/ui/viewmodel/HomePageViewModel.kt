@@ -1,18 +1,14 @@
 package com.larrykapija.moviesapp.ui.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.larrykapija.moviesapp.network.api.TmdbApiService
 import com.larrykapija.moviesapp.network.response.MovieResponse
-import dagger.Binds
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import retrofit2.awaitResponse
+import retrofit2.Response
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,78 +16,45 @@ class HomePageViewModel @Inject constructor(
     private val tmdbApiService: TmdbApiService
 ) : ViewModel() {
 
-    private val _popularMovies = MutableLiveData<MovieResponse>()
-    val popularMovies: LiveData<MovieResponse> = _popularMovies
+    // Define MutableStateFlows for each category of movies. Initialized with empty lists.
+    private val _popularMovies = MutableStateFlow<MovieResponse?>(null)
+    val popularMovies: StateFlow<MovieResponse?> = _popularMovies
 
-    private val _nowPlayingMovies = MutableLiveData<MovieResponse>()
-    val nowPlayingMovies: LiveData<MovieResponse> = _nowPlayingMovies
+    private val _nowPlayingMovies = MutableStateFlow<MovieResponse?>(null)
+    val nowPlayingMovies: StateFlow<MovieResponse?> = _nowPlayingMovies
 
-    private val _upcomingMovies = MutableLiveData<MovieResponse>()
-    val upcomingMovies: LiveData<MovieResponse> = _upcomingMovies
+    private val _upcomingMovies = MutableStateFlow<MovieResponse?>(null)
+    val upcomingMovies: StateFlow<MovieResponse?> = _upcomingMovies
 
-    private val _topRatedMovies = MutableLiveData<MovieResponse>()
-    val topRatedMovies: LiveData<MovieResponse> = _topRatedMovies
+    private val _topRatedMovies = MutableStateFlow<MovieResponse?>(null)
+    val topRatedMovies: StateFlow<MovieResponse?> = _topRatedMovies
 
     init {
-        fetchPopularMovies()
-        fetchNowPlayingMovies()
-        fetchUpcomingMovies()
-        fetchTopRatedMovies()
+        // Fetch movies for each category using the generic fetchMovies function
+        fetchMovies({ tmdbApiService.getPopularMovies() }, _popularMovies)
+        fetchMovies({ tmdbApiService.getNowPlayingMovies() }, _nowPlayingMovies)
+        fetchMovies({ tmdbApiService.getUpcomingMovies() }, _upcomingMovies)
+        fetchMovies({ tmdbApiService.getTopRatedMovies() }, _topRatedMovies)
     }
 
-    private fun fetchPopularMovies() {
+    /**
+     * Generic function to fetch movies using a given API call function and update the corresponding StateFlow.
+     * @param fetchFunction The suspend function to execute for fetching movies from the API.
+     * @param movieStateFlow The MutableStateFlow to be updated with the fetched movies.
+     */
+    private fun fetchMovies(fetchFunction: suspend () -> Response<MovieResponse>, movieStateFlow: MutableStateFlow<MovieResponse?>) {
         viewModelScope.launch {
             try {
-                val request = tmdbApiService.getPopularMovies()
-
-                val response = request.awaitResponse()
-
+                val response = fetchFunction()
                 if (response.isSuccessful) {
-                    _popularMovies.value = response.body()
+
+                    movieStateFlow.value = response.body()
+                } else {
+                    // TODO: Handle the case of an unsuccessful response, e.g., by logging or showing an error message.
                 }
-            } catch (_: Exception) { }
-        }
-    }
-
-    private fun fetchNowPlayingMovies() {
-        viewModelScope.launch {
-            try {
-                val request = tmdbApiService.getNowPlayingMovies()
-
-                val response = request.awaitResponse()
-
-                if (response.isSuccessful) {
-                    _nowPlayingMovies.value = response.body()
-                }
-            } catch (_: Exception) { }
-        }
-    }
-
-    private fun fetchUpcomingMovies() {
-        viewModelScope.launch {
-            try {
-                val request = tmdbApiService.getUpcomingMovies()
-
-                val response = request.awaitResponse()
-
-                if (response.isSuccessful) {
-                    _upcomingMovies.value = response.body()
-                }
-            } catch (_: Exception) { }
-        }
-    }
-
-    private fun fetchTopRatedMovies() {
-        viewModelScope.launch {
-            try {
-                val request = tmdbApiService.getTopRatedMovies()
-
-                val response = request.awaitResponse()
-
-                if (response.isSuccessful) {
-                    _topRatedMovies.value = response.body()
-                }
-            } catch (_: Exception) { }
+            } catch (e: Exception) {
+                // TODO: Handle any exceptions that might occur during the network call or response handling.
+            }
         }
     }
 }

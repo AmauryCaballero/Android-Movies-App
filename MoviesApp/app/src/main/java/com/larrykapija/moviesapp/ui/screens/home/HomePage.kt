@@ -15,6 +15,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -22,7 +23,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.larrykapija.moviesapp.ui.viewmodel.HomePageViewModel
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
@@ -37,10 +37,10 @@ fun HomePage(
     innerPadding: PaddingValues,
     viewModel: HomePageViewModel = viewModel(LocalContext.current as ViewModelStoreOwner)
 ) {
-    val popularMovies = viewModel.popularMovies.observeAsState().value?.results ?: listOf()
-    val nowPlayingMovies = viewModel.nowPlayingMovies.observeAsState().value?.results ?: listOf()
-    val upcomingMovies = viewModel.upcomingMovies.observeAsState().value?.results ?: listOf()
-    val topRatedMovies = viewModel.topRatedMovies.observeAsState().value?.results ?: listOf()
+    val popularMovies = viewModel.popularMovies.collectAsState().value?.results ?: listOf()
+    val nowPlayingMovies = viewModel.nowPlayingMovies.collectAsState().value?.results ?: listOf()
+    val upcomingMovies = viewModel.upcomingMovies.collectAsState().value?.results ?: listOf()
+    val topRatedMovies = viewModel.topRatedMovies.collectAsState().value?.results ?: listOf()
 
     val pagerState = rememberPagerState(pageCount = {
         popularMovies.size
