@@ -1,24 +1,17 @@
 package com.larrykapija.moviesapp.ui.screens.home
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PageSize
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,9 +23,9 @@ import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.larrykapija.moviesapp.ui.viewmodel.HomePageViewModel
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
-import coil.compose.AsyncImage
 import com.larrykapija.moviesapp.ui.screens.components.VerticalSpacer
 import com.larrykapija.moviesapp.ui.screens.home.components.BackgroundImage
 import com.larrykapija.moviesapp.ui.screens.home.components.MovieItem
@@ -98,17 +91,45 @@ fun HomePage(
             }
 
             item {
-                MoviesGrid(title = "Playing now", moviesList = nowPlayingMovies)
-            }
+                Box {
+                    GradientBackground(modifier = Modifier.matchParentSize())
 
-            item {
-                MoviesGrid(title = "Top rated", moviesList = topRatedMovies)
-            }
+                    Column {
 
-            item {
-                MoviesGrid(title = "Upcoming", moviesList = upcomingMovies)
+                        MoviesGrid(title = "Playing now", moviesList = nowPlayingMovies)
+
+                        MoviesGrid(title = "Top rated", moviesList = topRatedMovies)
+
+                        MoviesGrid(title = "Upcoming", moviesList = upcomingMovies)
+                    }
+                }
             }
 
         }
     }
+}
+
+@Composable
+private fun GradientBackground(modifier: Modifier) {
+
+    val gradientColor = MaterialTheme.colorScheme.secondary
+
+    Canvas(modifier = modifier) {
+        val canvasHeight = size.height
+        drawRect(
+            brush = Brush.verticalGradient(
+                colors = listOf(
+                    Color.Transparent,
+                    gradientColor.copy(alpha = 0.9f),
+                    gradientColor,
+                    gradientColor,
+                    gradientColor,
+                    gradientColor
+                ),
+                startY = canvasHeight * 0f,
+                endY = Float.POSITIVE_INFINITY,
+            )
+        )
+    }
+
 }

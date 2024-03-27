@@ -6,6 +6,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -26,6 +27,8 @@ fun BackgroundImage(imageUrl: String) {
     val currentImageUrl = remember { mutableStateOf(imageUrl) }
     val previousImageUrl = remember { mutableStateOf(imageUrl) }
     val opacity = remember { Animatable(0f) }
+
+    val gradientColor = MaterialTheme.colorScheme.secondary
 
     LaunchedEffect(imageUrl) {
         if (imageUrl != currentImageUrl.value) {
@@ -56,12 +59,11 @@ fun BackgroundImage(imageUrl: String) {
 
         Canvas(modifier = Modifier.matchParentSize()) {
             val canvasHeight = size.height
-            val gradientColor = Color.Black
 
             drawRect(
                 brush = Brush.verticalGradient(
                     colors = listOf(
-                        gradientColor.copy(alpha = 0.3f),
+                        Color.Black.copy(alpha = 0.3f),
                         Color.Transparent,
                         Color.Transparent,
                         gradientColor.copy(alpha = 0.5f),
