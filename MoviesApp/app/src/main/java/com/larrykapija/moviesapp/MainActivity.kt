@@ -14,13 +14,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MoviesAppTheme {
-                MainActivityContent()
+                AppNavigation()
             }
         }
     }
-}
-
-@Composable
-fun MainActivityContent() {
-    AppNavigation()
 }

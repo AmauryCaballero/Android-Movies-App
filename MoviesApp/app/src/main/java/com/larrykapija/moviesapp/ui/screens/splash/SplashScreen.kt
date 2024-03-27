@@ -36,6 +36,7 @@ fun SplashScreen(navController: NavController) {
         if (progress == 1f) {
             navController.navigate(Destinations.MainScreen) {
                 popUpTo(Destinations.SplashScreen) { inclusive = true }
+                launchSingleTop = true
             }
         }
     }

@@ -51,4 +51,5 @@ object NetworkModule {
     @Singleton
     fun provideTmdbApiService(retrofit: Retrofit): TmdbApiService =
         retrofit.create(TmdbApiService::class.java)
+
 }
