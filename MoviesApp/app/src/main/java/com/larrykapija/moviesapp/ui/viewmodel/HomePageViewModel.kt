@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.larrykapija.moviesapp.BuildConfig
 import com.larrykapija.moviesapp.network.api.TmdbApiService
 import com.larrykapija.moviesapp.network.response.MovieResponse
 import dagger.Binds
@@ -21,5 +20,24 @@ class HomePageViewModel @Inject constructor(
     private val tmdbApiService: TmdbApiService
 ) : ViewModel() {
 
-    val greetings = "Hello"
+    private val _popularMovies = MutableLiveData<MovieResponse>()
+    val popularMovies: LiveData<MovieResponse> = _popularMovies
+
+    init {
+        fetchPopularMovies()
+    }
+
+    private fun fetchPopularMovies() {
+        viewModelScope.launch {
+            try {
+                val request = tmdbApiService.getPopularMovies()
+
+                val response = request.awaitResponse()
+
+                if (response.isSuccessful) {
+                    _popularMovies.value = response.body()
+                }
+            } catch (_: Exception) { }
+        }
+    }
 }
