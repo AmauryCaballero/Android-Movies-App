@@ -23,8 +23,20 @@ class HomePageViewModel @Inject constructor(
     private val _popularMovies = MutableLiveData<MovieResponse>()
     val popularMovies: LiveData<MovieResponse> = _popularMovies
 
+    private val _nowPlayingMovies = MutableLiveData<MovieResponse>()
+    val nowPlayingMovies: LiveData<MovieResponse> = _nowPlayingMovies
+
+    private val _upcomingMovies = MutableLiveData<MovieResponse>()
+    val upcomingMovies: LiveData<MovieResponse> = _upcomingMovies
+
+    private val _topRatedMovies = MutableLiveData<MovieResponse>()
+    val topRatedMovies: LiveData<MovieResponse> = _topRatedMovies
+
     init {
         fetchPopularMovies()
+        fetchNowPlayingMovies()
+        fetchUpcomingMovies()
+        fetchTopRatedMovies()
     }
 
     private fun fetchPopularMovies() {
@@ -36,6 +48,48 @@ class HomePageViewModel @Inject constructor(
 
                 if (response.isSuccessful) {
                     _popularMovies.value = response.body()
+                }
+            } catch (_: Exception) { }
+        }
+    }
+
+    private fun fetchNowPlayingMovies() {
+        viewModelScope.launch {
+            try {
+                val request = tmdbApiService.getNowPlayingMovies()
+
+                val response = request.awaitResponse()
+
+                if (response.isSuccessful) {
+                    _nowPlayingMovies.value = response.body()
+                }
+            } catch (_: Exception) { }
+        }
+    }
+
+    private fun fetchUpcomingMovies() {
+        viewModelScope.launch {
+            try {
+                val request = tmdbApiService.getUpcomingMovies()
+
+                val response = request.awaitResponse()
+
+                if (response.isSuccessful) {
+                    _upcomingMovies.value = response.body()
+                }
+            } catch (_: Exception) { }
+        }
+    }
+
+    private fun fetchTopRatedMovies() {
+        viewModelScope.launch {
+            try {
+                val request = tmdbApiService.getTopRatedMovies()
+
+                val response = request.awaitResponse()
+
+                if (response.isSuccessful) {
+                    _topRatedMovies.value = response.body()
                 }
             } catch (_: Exception) { }
         }

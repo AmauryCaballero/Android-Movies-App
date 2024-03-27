@@ -21,7 +21,6 @@ import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.larrykapija.moviesapp.ui.viewmodel.HomePageViewModel
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import com.larrykapija.moviesapp.ui.screens.components.VerticalSpacer
 import com.larrykapija.moviesapp.ui.screens.home.components.BackgroundImage
@@ -33,9 +32,13 @@ fun HomePage(
     innerPadding: PaddingValues,
     viewModel: HomePageViewModel = viewModel(LocalContext.current as ViewModelStoreOwner)
 ) {
-    val movies = viewModel.popularMovies.observeAsState().value?.results ?: listOf()
+    val popularMovies = viewModel.popularMovies.observeAsState().value?.results ?: listOf()
+    val nowPlayingMovies = viewModel.nowPlayingMovies.observeAsState().value?.results ?: listOf()
+    val upcomingMovies = viewModel.upcomingMovies.observeAsState().value?.results ?: listOf()
+    val topRatedMovies = viewModel.topRatedMovies.observeAsState().value?.results ?: listOf()
+
     val pagerState = rememberPagerState(pageCount = {
-        movies.size
+        popularMovies.size
     })
 
     Box(
@@ -43,7 +46,7 @@ fun HomePage(
         contentAlignment = Alignment.Center
     ) {
 
-        movies.getOrNull(pagerState.currentPage)?.backdrop_path?.let { backdropPath ->
+        popularMovies.getOrNull(pagerState.currentPage)?.backdrop_path?.let { backdropPath ->
             val imageUrl = "https://image.tmdb.org/t/p/original$backdropPath"
             BackgroundImage(imageUrl)
         }
@@ -53,13 +56,15 @@ fun HomePage(
             // This space allow us to see the background image
             item {
                 VerticalSpacer(
-                    35
+                    30
                 )
             }
             
             item {
                 Text(
-                    modifier = Modifier.fillMaxWidth().padding(8.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp),
                     text = "Popular",
                     style = MaterialTheme.typography.titleLarge,
                     textAlign = TextAlign.Center
@@ -73,7 +78,7 @@ fun HomePage(
                     contentPadding = PaddingValues(start = 100.dp)
                 ) { page ->
                     MovieItem(
-                        movie = movies[page],
+                        movie = popularMovies[page],
                         index = page,
                         focusedItemIndex = pagerState.currentPage
                     )
