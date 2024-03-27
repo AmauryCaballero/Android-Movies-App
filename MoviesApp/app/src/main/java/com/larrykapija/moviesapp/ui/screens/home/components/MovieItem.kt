@@ -30,7 +30,7 @@ fun MovieItem(movie: Movie, index: Int, focusedItemIndex: Int) {
         label = "movie item rotation animation"
     )
 
-    val alpha by animateFloatAsState(targetValue = if (isFocused) 1f else 0.5f, label = "movie item alpha animation")
+    val alpha by animateFloatAsState(targetValue = if (isFocused) 1f else 0.8f, label = "movie item alpha animation")
     val scale by animateFloatAsState(targetValue = if (isFocused) 1f else 0.8f, label = "movie item scale animation")
     val bottomPadding by animateDpAsState(
         targetValue = if (isFocused) 100.dp else 0.dp,

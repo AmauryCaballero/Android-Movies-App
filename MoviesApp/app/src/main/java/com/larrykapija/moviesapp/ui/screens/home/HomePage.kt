@@ -2,13 +2,8 @@ package com.larrykapija.moviesapp.ui.screens.home
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.pager.HorizontalPager
@@ -23,8 +18,8 @@ import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.larrykapija.moviesapp.ui.viewmodel.HomePageViewModel
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.platform.LocalConfiguration
 import com.larrykapija.moviesapp.ui.screens.components.VerticalSpacer
+import com.larrykapija.moviesapp.ui.screens.home.components.BackgroundImage
 import com.larrykapija.moviesapp.ui.screens.home.components.MovieItem
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -43,10 +38,17 @@ fun HomePage(
         contentAlignment = Alignment.Center
     ) {
 
+        movies.getOrNull(pagerState.currentPage)?.backdrop_path?.let { backdropPath ->
+            val imageUrl = "https://image.tmdb.org/t/p/original$backdropPath"
+            BackgroundImage(imageUrl)
+        }
+
         LazyColumn(modifier = Modifier.fillMaxSize()) {
+
+            // This space allow us to see the background image
             item {
                 VerticalSpacer(
-                    40
+                    35
                 )
             }
 
