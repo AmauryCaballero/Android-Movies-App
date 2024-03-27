@@ -1,6 +1,5 @@
 package com.larrykapija.moviesapp.ui.screens.home.components
 
-import androidx.compose.animation.core.Easing
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.TweenSpec
 import androidx.compose.animation.core.animateDpAsState
@@ -31,7 +30,7 @@ fun MovieItem(movie: Movie, index: Int, focusedItemIndex: Int) {
         label = "movie item rotation animation"
     )
 
-    val alpha by animateFloatAsState(targetValue = if (isFocused) 1f else 0.7f, label = "movie item alpha animation")
+    val alpha by animateFloatAsState(targetValue = if (isFocused) 1f else 0.5f, label = "movie item alpha animation")
     val scale by animateFloatAsState(targetValue = if (isFocused) 1f else 0.8f, label = "movie item scale animation")
     val bottomPadding by animateDpAsState(
         targetValue = if (isFocused) 100.dp else 0.dp,
