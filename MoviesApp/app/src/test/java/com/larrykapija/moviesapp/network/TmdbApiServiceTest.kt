@@ -15,7 +15,6 @@ class TmdbApiServiceTest {
 
     private lateinit var mockWebServer: MockWebServer
     private lateinit var service: TmdbApiService
-    private lateinit var apiAccessKey: String
 
     @Before
     fun setUp() {
@@ -26,8 +25,6 @@ class TmdbApiServiceTest {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(TmdbApiService::class.java)
-
-        apiAccessKey = BuildConfig.TMDB_API_ACCESS_KEY
     }
 
     @After
@@ -57,7 +54,7 @@ class TmdbApiServiceTest {
 
         mockWebServer.enqueue(MockResponse().setBody(mockResponseJson).setResponseCode(200))
 
-        val response = service.getMovieDetails(movieId = 278, accessToken = apiAccessKey).execute()
+        val response = service.getMovieDetails(movieId = 278).execute()
 
         assertNotNull(response.body())
         assertEquals(278, response.body()?.id)
@@ -92,7 +89,7 @@ class TmdbApiServiceTest {
 
         mockWebServer.enqueue(MockResponse().setBody(mockResponseJson).setResponseCode(200))
 
-        val response = service.getPopularMovies(apiAccessKey).execute()
+        val response = service.getPopularMovies().execute()
 
         assertNotNull(response.body())
         assertEquals(1, response.body()?.page)
@@ -133,7 +130,7 @@ class TmdbApiServiceTest {
         """.trimIndent()
         mockWebServer.enqueue(MockResponse().setBody(mockResponseJson).setResponseCode(200))
 
-        val response = service.getNowPlayingMovies(apiAccessKey).execute()
+        val response = service.getNowPlayingMovies().execute()
 
         assertNotNull(response.body())
         assertEquals(1, response.body()?.page)
@@ -175,7 +172,7 @@ class TmdbApiServiceTest {
 
         mockWebServer.enqueue(MockResponse().setBody(mockResponseJson).setResponseCode(200))
 
-        val response = service.getUpcomingMovies(apiAccessKey).execute()
+        val response = service.getUpcomingMovies().execute()
 
         assertNotNull(response.body())
         assertEquals(1, response.body()?.page)
@@ -213,7 +210,7 @@ class TmdbApiServiceTest {
 
         mockWebServer.enqueue(MockResponse().setBody(mockResponseJson).setResponseCode(200))
 
-        val response = service.getTopRatedMovies(apiAccessKey).execute()
+        val response = service.getTopRatedMovies().execute()
 
         assertNotNull(response.body())
         assertEquals(1, response.body()?.page)

@@ -21,21 +21,21 @@ val Typography = Typography(
 
     titleLarge = TextStyle(
         fontFamily = JostFontFamily,
-        fontWeight = FontWeight.Bold,
-        fontSize = 24.sp,
+        fontWeight = FontWeight.Medium,
+        fontSize = 34.sp,
         letterSpacing = 0.5.sp,
     ),
     bodyMedium = TextStyle(
         fontFamily = JostFontFamily,
         fontWeight = FontWeight.Medium,
-        fontSize = 16.sp,
+        fontSize = 24.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp,
     ),
     labelSmall = TextStyle(
         fontFamily = JostFontFamily,
         fontWeight = FontWeight.Light,
-        fontSize = 14.sp,
+        fontSize = 20.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp,
     ),

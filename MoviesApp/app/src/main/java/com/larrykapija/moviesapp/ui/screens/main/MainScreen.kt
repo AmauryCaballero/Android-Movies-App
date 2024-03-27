@@ -8,7 +8,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.ViewModelStoreOwner
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.larrykapija.moviesapp.ui.screens.home.HomePage
 import com.larrykapija.moviesapp.ui.screens.main.components.CurvedBottomNavigationBar
@@ -16,6 +19,7 @@ import com.larrykapija.moviesapp.ui.screens.search.SearchPage
 import com.larrykapija.moviesapp.ui.screens.splash.SplashScreen
 import com.larrykapija.moviesapp.ui.screens.watchlist.WatchListPage
 import com.larrykapija.moviesapp.ui.theme.MoviesAppTheme
+import com.larrykapija.moviesapp.ui.viewmodel.HomePageViewModel
 
 @Composable
 fun MainScreen() {
@@ -29,16 +33,11 @@ fun MainScreen() {
             )
         }
     ) {
-        MainScreenContent(currentTabIndex = currentTabIndex, innerPadding = it)
-    }
-}
-
-@Composable
-fun MainScreenContent(currentTabIndex: Int, innerPadding: PaddingValues) {
-    when (currentTabIndex) {
-        0 -> HomePage(innerPadding)
-        1 -> SearchPage(innerPadding)
-        2 -> WatchListPage(innerPadding)
+        when (currentTabIndex) {
+            0 -> HomePage(it)
+            1 -> SearchPage(it)
+            2 -> WatchListPage(it)
+        }
     }
 }
 

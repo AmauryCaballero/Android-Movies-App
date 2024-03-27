@@ -1,8 +1,12 @@
 import java.util.Properties
 
 plugins {
+    id("com.google.dagger.hilt.android")
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    id("kotlin-kapt")
+    id("kotlin-parcelize")
+    kotlin("kapt")
 }
 
 android {
@@ -67,25 +71,31 @@ android {
 
 dependencies {
 
+    implementation(libs.coil.compose)
+
     // Navigation
     implementation(libs.androidx.navigation.compose)
 
     // Lottie
-    implementation(libs.lottie.compose.v640)
+    implementation(libs.lottie.compose)
 
     // Room for local storage
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
 
     // Network
-    implementation(libs.retrofit.v2100)
+    implementation(libs.retrofit)
     implementation(libs.okhttp)
     implementation(libs.logging.interceptor)
-    implementation(libs.converter.gson.v2100)
+    implementation(libs.converter.gson)
 
     // Hilt for dependency injection
     implementation(libs.hilt.android)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    kapt(libs.hilt.android.compiler)
 
+    implementation(libs.androidx.runtime.livedata)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -110,4 +120,10 @@ dependencies {
 
     // Coroutines for async operations
     implementation(libs.kotlinx.coroutines.android)
+}
+
+kotlin {
+    kapt {
+        correctErrorTypes = true
+    }
 }
