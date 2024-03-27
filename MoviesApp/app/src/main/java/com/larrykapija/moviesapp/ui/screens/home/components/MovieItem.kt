@@ -23,14 +23,15 @@ fun MovieItem(movie: Movie, index: Int, focusedItemIndex: Int) {
     )
 
     val alpha by animateFloatAsState(targetValue = if (isFocused) 1f else 0.7f, label = "movie item alpha animation")
-    val scale by animateFloatAsState(targetValue = if (isFocused) 1f else 0.75f, label = "movie item scale animation")
+    val scale by animateFloatAsState(targetValue = if (isFocused) 1f else 0.8f, label = "movie item scale animation")
 
     AsyncImage(
         model = "https://image.tmdb.org/t/p/w500${movie.poster_path}",
         contentDescription = "Movie Poster",
         modifier = Modifier
-            .padding(top = if (isFocused) 0.dp else 30.dp,
-                bottom = if (isFocused) 30.dp else 0.dp
+            .padding(
+                top = if (isFocused) 0.dp else 30.dp,
+                bottom = if (isFocused) 100.dp else 0.dp
             )
             .graphicsLayer {
                 rotationZ = rotationDegrees
