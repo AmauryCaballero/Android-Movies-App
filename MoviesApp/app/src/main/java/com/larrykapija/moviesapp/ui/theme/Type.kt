@@ -21,8 +21,8 @@ val Typography = Typography(
 
     titleLarge = TextStyle(
         fontFamily = JostFontFamily,
-        fontWeight = FontWeight.Bold,
-        fontSize = 24.sp,
+        fontWeight = FontWeight.Medium,
+        fontSize = 34.sp,
         letterSpacing = 0.5.sp,
     ),
     bodyMedium = TextStyle(

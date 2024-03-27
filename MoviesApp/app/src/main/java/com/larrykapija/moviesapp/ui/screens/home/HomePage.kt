@@ -4,11 +4,14 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PageSize
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,6 +21,8 @@ import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.larrykapija.moviesapp.ui.viewmodel.HomePageViewModel
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import com.larrykapija.moviesapp.ui.screens.components.VerticalSpacer
 import com.larrykapija.moviesapp.ui.screens.home.components.BackgroundImage
 import com.larrykapija.moviesapp.ui.screens.home.components.MovieItem
@@ -49,6 +54,15 @@ fun HomePage(
             item {
                 VerticalSpacer(
                     35
+                )
+            }
+            
+            item {
+                Text(
+                    modifier = Modifier.fillMaxWidth().padding(8.dp),
+                    text = "Popular",
+                    style = MaterialTheme.typography.titleLarge,
+                    textAlign = TextAlign.Center
                 )
             }
 
