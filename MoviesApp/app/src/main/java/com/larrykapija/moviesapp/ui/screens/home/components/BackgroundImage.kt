@@ -19,7 +19,9 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import kotlinx.coroutines.delay
 
 @Composable
@@ -40,7 +42,10 @@ fun BackgroundImage(imageUrl: String) {
     }
     Box(modifier = Modifier.fillMaxSize()) {
         AsyncImage(
-            model = previousImageUrl.value,
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(previousImageUrl.value)
+                .crossfade(true)
+                .build(),
             contentDescription = "old background image",
             modifier = Modifier
                 .matchParentSize(),
@@ -49,7 +54,10 @@ fun BackgroundImage(imageUrl: String) {
 
         // New image
         AsyncImage(
-            model = currentImageUrl.value,
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(currentImageUrl.value)
+                .crossfade(true)
+                .build(),
             contentDescription = "new background image",
             modifier = Modifier
                 .matchParentSize()

@@ -10,9 +10,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.larrykapija.moviesapp.network.response.Movie
 
 @Composable
@@ -36,7 +38,10 @@ fun MoviesGrid(title: String, moviesList: List<Movie>) {
                 ) {
                     row.forEach { movie ->
                         AsyncImage(
-                            model = "https://image.tmdb.org/t/p/w500${movie.poster_path}",
+                            model =  ImageRequest.Builder(LocalContext.current)
+                                .data("https://image.tmdb.org/t/p/w500${movie.posterPath}")
+                                .crossfade(true)
+                                .build(),
                             contentDescription = null,
                             modifier = Modifier
                                 .weight(1f)

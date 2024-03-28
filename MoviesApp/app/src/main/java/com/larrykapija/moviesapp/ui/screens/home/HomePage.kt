@@ -51,7 +51,7 @@ fun HomePage(
         contentAlignment = Alignment.Center
     ) {
 
-        popularMovies.getOrNull(pagerState.currentPage)?.backdrop_path?.let { backdropPath ->
+        popularMovies.getOrNull(pagerState.currentPage)?.backdropPath?.let { backdropPath ->
             val imageUrl = "https://image.tmdb.org/t/p/original$backdropPath"
             BackgroundImage(imageUrl)
         }
