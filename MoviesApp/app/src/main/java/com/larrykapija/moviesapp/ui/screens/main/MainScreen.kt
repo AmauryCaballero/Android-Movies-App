@@ -19,7 +19,7 @@ import com.larrykapija.moviesapp.ui.screens.search.SearchPage
 import com.larrykapija.moviesapp.ui.screens.splash.SplashScreen
 import com.larrykapija.moviesapp.ui.screens.watchlist.WatchListPage
 import com.larrykapija.moviesapp.ui.theme.MoviesAppTheme
-import com.larrykapija.moviesapp.ui.viewmodel.HomePageViewModel
+import com.larrykapija.moviesapp.viewmodel.HomePageViewModel
 
 @Composable
 fun MainScreen() {
