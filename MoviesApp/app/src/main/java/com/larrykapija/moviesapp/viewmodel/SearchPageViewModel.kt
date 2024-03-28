@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.larrykapija.moviesapp.network.api.TmdbApiService
-import com.larrykapija.moviesapp.network.response.MovieDetails
+import com.larrykapija.moviesapp.network.response.MovieResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -23,6 +23,8 @@ class SearchPageViewModel @Inject constructor(
     }
 
     fun searchMovies(query: String) {
+        if (query.isEmpty()) return
+
         viewModelScope.launch {
             _uiState.value = SearchState.Loading
             try {
@@ -37,12 +39,11 @@ class SearchPageViewModel @Inject constructor(
             }
         }
     }
-
 }
 
 sealed class SearchState {
     object Empty : SearchState()
     object Loading : SearchState()
-    data class Success(val movies: MovieDetails) : SearchState()
+    data class Success(val movies: MovieResponse) : SearchState()
     data class Error(val message: String) : SearchState()
 }

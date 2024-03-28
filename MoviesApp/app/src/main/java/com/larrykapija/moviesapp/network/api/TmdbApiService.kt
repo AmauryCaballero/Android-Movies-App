@@ -15,7 +15,7 @@ interface TmdbApiService {
         @Query("include_adult") includeAdult: Boolean = true,
         @Query("language") language: String = "en-US",
         @Query("page") page: Int = 1
-    ): Response<MovieDetails>
+    ): Response<MovieResponse>
 
     @GET("movie/{movie_id}")
     suspend fun getMovieDetails(
