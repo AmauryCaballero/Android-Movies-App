@@ -3,9 +3,11 @@ package com.larrykapija.moviesapp.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.larrykapija.moviesapp.network.api.TmdbApiService
 import com.larrykapija.moviesapp.network.response.MovieDetails
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -18,6 +20,22 @@ class SearchPageViewModel @Inject constructor(
 
     init {
         _uiState.value = SearchState.Empty
+    }
+
+    fun searchMovies(query: String) {
+        viewModelScope.launch {
+            _uiState.value = SearchState.Loading
+            try {
+                val response = tmdbApiService.getMoviesCollection(query = query)
+                if (response.isSuccessful && response.body() != null) {
+                    _uiState.value = SearchState.Success(response.body()!!)
+                } else {
+                    _uiState.value = SearchState.Error("No results found")
+                }
+            } catch (e: Exception) {
+                _uiState.value = SearchState.Error(e.message ?: "Unknown error")
+            }
+        }
     }
 
 }
