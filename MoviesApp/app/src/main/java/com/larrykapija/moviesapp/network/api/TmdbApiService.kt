@@ -9,6 +9,14 @@ import retrofit2.http.Query
 
 interface TmdbApiService {
 
+    @GET("search/collection")
+    suspend fun getMoviesCollection(
+        @Query("query") query: String = "",
+        @Query("include_adult") includeAdult: Boolean = true,
+        @Query("language") language: String = "en-US",
+        @Query("page") page: Int = 1
+    ): Response<MovieDetails>
+
     @GET("movie/{movie_id}")
     suspend fun getMovieDetails(
         @Path("movie_id") movieId: Int,
