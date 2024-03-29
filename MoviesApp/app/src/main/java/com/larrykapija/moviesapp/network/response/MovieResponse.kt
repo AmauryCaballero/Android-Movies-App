@@ -5,22 +5,25 @@ import com.larrykapija.moviesapp.models.Dates
 
 // Response model for popular, now playing, upcoming, and top rated movies
 open class MovieResponse(
-    val dates: Dates,
-    val page: Int,
+    val dates: Dates?,
+    val page: Int?,
     val results: List<Movie>,
 
     @SerializedName("total_results")
-    val totalResults: Int,
+    val totalResults: Int?,
 
     @SerializedName("total_pages")
-    val totalPages: Int
+    val totalPages: Int?
 )
 
 // Movie model used in the MovieResponse and for details
 data class Movie(
     val id: Int,
-    val title: String,
-    val overview: String,
+
+    @SerializedName("name", alternate = ["original_name", "title"])
+    val title: String?,
+
+    val overview: String?,
 
     @SerializedName("poster_path")
     val posterPath: String?,
@@ -29,7 +32,7 @@ data class Movie(
     val backdropPath: String?,
 
     @SerializedName("vote_average")
-    val voteAverage: Double,
+    val voteAverage: Double?,
 
     @SerializedName("release_date")
     val releaseDate: String?
