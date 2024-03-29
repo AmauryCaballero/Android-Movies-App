@@ -33,7 +33,7 @@ class TmdbApiServiceTest {
     }
 
     @Test
-    fun `getMovieDetails returns data successfully`() {
+    suspend fun `getMovieDetails returns data successfully`() {
         val mockResponseJson = """{
       "id": 278,
       "title": "The Shawshank Redemption",
@@ -54,7 +54,7 @@ class TmdbApiServiceTest {
 
         mockWebServer.enqueue(MockResponse().setBody(mockResponseJson).setResponseCode(200))
 
-        val response = service.getMovieDetails(movieId = 278).execute()
+        val response = service.getMovieDetails(movieId = 278)
 
         assertNotNull(response.body())
         assertEquals(278, response.body()?.id)
@@ -62,7 +62,7 @@ class TmdbApiServiceTest {
     }
 
     @Test
-    fun `getPopularMovies returns data successfully`() {
+    suspend fun `getPopularMovies returns data successfully`() {
         val mockResponseJson = """{
           "page": 1,
           "results": [
@@ -89,7 +89,7 @@ class TmdbApiServiceTest {
 
         mockWebServer.enqueue(MockResponse().setBody(mockResponseJson).setResponseCode(200))
 
-        val response = service.getPopularMovies().execute()
+        val response = service.getPopularMovies()
 
         assertNotNull(response.body())
         assertEquals(1, response.body()?.page)
@@ -98,7 +98,7 @@ class TmdbApiServiceTest {
     }
 
     @Test
-    fun `getNowPlayingMovies returns data successfully`() {
+    suspend fun `getNowPlayingMovies returns data successfully`() {
         val mockResponseJson = """
             {
               "dates": {
@@ -130,7 +130,7 @@ class TmdbApiServiceTest {
         """.trimIndent()
         mockWebServer.enqueue(MockResponse().setBody(mockResponseJson).setResponseCode(200))
 
-        val response = service.getNowPlayingMovies().execute()
+        val response = service.getNowPlayingMovies()
 
         assertNotNull(response.body())
         assertEquals(1, response.body()?.page)
@@ -139,7 +139,7 @@ class TmdbApiServiceTest {
     }
 
     @Test
-    fun `getUpcomingMovies returns data successfully`() {
+    suspend fun `getUpcomingMovies returns data successfully`() {
         val mockResponseJson = """
     {
       "dates": {
@@ -172,7 +172,7 @@ class TmdbApiServiceTest {
 
         mockWebServer.enqueue(MockResponse().setBody(mockResponseJson).setResponseCode(200))
 
-        val response = service.getUpcomingMovies().execute()
+        val response = service.getUpcomingMovies()
 
         assertNotNull(response.body())
         assertEquals(1, response.body()?.page)
@@ -181,7 +181,7 @@ class TmdbApiServiceTest {
     }
 
     @Test
-    fun `getTopRatedMovies returns data successfully`() {
+    suspend fun `getTopRatedMovies returns data successfully`() {
         val mockResponseJson = """
     {
       "page": 1,
@@ -210,7 +210,7 @@ class TmdbApiServiceTest {
 
         mockWebServer.enqueue(MockResponse().setBody(mockResponseJson).setResponseCode(200))
 
-        val response = service.getTopRatedMovies().execute()
+        val response = service.getTopRatedMovies()
 
         assertNotNull(response.body())
         assertEquals(1, response.body()?.page)
