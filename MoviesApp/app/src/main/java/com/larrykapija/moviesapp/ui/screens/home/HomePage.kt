@@ -22,7 +22,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.larrykapija.moviesapp.ui.viewmodel.HomePageViewModel
+import com.larrykapija.moviesapp.viewmodel.HomePageViewModel
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
@@ -51,7 +51,7 @@ fun HomePage(
         contentAlignment = Alignment.Center
     ) {
 
-        popularMovies.getOrNull(pagerState.currentPage)?.backdrop_path?.let { backdropPath ->
+        popularMovies.getOrNull(pagerState.currentPage)?.backdropPath?.let { backdropPath ->
             val imageUrl = "https://image.tmdb.org/t/p/original$backdropPath"
             BackgroundImage(imageUrl)
         }

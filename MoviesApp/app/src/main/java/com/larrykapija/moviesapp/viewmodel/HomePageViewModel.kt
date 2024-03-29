@@ -1,4 +1,4 @@
-package com.larrykapija.moviesapp.ui.viewmodel
+package com.larrykapija.moviesapp.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
