@@ -30,7 +30,16 @@ class SearchPageViewModel @Inject constructor(
             try {
                 val response = tmdbApiService.getMoviesCollection(query = query)
                 if (response.isSuccessful && response.body() != null) {
-                    _uiState.value = SearchState.Success(response.body()!!)
+                    val body = response.body()
+                    if (body != null) {
+                        if (body.results.isNotEmpty()) {
+                            _uiState.value = SearchState.Success(body)
+                        } else {
+                            _uiState.value = SearchState.Empty
+                        }
+                    } else {
+                        _uiState.value = SearchState.Error("Parse error")
+                    }
                 } else {
                     _uiState.value = SearchState.Error("No results found")
                 }
