@@ -5,6 +5,7 @@ import androidx.annotation.RawRes
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -43,6 +44,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import com.airbnb.lottie.compose.LottieAnimation
@@ -51,16 +53,20 @@ import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.larrykapija.moviesapp.R
 import com.larrykapija.moviesapp.network.response.Movie
+import com.larrykapija.moviesapp.network.response.toJson
+import com.larrykapija.moviesapp.ui.navigation.Destinations
 import com.larrykapija.moviesapp.ui.screens.search.components.SearchMovieItem
 import com.larrykapija.moviesapp.ui.theme.MoviesAppTheme
 import com.larrykapija.moviesapp.viewmodel.SearchPageViewModel
 import com.larrykapija.moviesapp.viewmodel.SearchState
 import kotlinx.coroutines.delay
+import java.net.URLEncoder
 
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SearchPage(
+    navController: NavController,
     innerPadding: PaddingValues,
     viewModel: SearchPageViewModel = viewModel(LocalContext.current as ViewModelStoreOwner)
 ) {
@@ -100,7 +106,15 @@ fun SearchPage(
             is SearchState.Success -> {
                 LazyColumn {
                     items(currentState.movies.results.filter { movie ->  movie.posterPath != null}) { movie ->
-                        SearchMovieItem(movie = movie)
+                        SearchMovieItem(
+                            modifier = Modifier
+                                .clickable {
+                                    val movieJson = movie.toJson()
+                                    val encodedMovie = URLEncoder.encode(movieJson, "UTF-8")
+                                    navController.navigate("${Destinations.DetailsScreen}/${encodedMovie}")
+                                },
+                            movie = movie
+                        )
                     }
                 }
             }

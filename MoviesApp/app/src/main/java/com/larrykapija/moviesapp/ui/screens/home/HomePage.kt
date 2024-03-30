@@ -26,6 +26,7 @@ import com.larrykapija.moviesapp.viewmodel.HomePageViewModel
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
+import androidx.navigation.NavController
 import com.larrykapija.moviesapp.ui.screens.components.VerticalSpacer
 import com.larrykapija.moviesapp.ui.screens.home.components.BackgroundImage
 import com.larrykapija.moviesapp.ui.screens.home.components.MovieItem
@@ -34,6 +35,7 @@ import com.larrykapija.moviesapp.ui.screens.home.components.MoviesGrid
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomePage(
+    navController: NavController,
     innerPadding: PaddingValues,
     viewModel: HomePageViewModel = viewModel(LocalContext.current as ViewModelStoreOwner)
 ) {

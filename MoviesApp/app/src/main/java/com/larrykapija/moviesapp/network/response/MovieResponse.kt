@@ -1,6 +1,7 @@
 package com.larrykapija.moviesapp.network.response
 
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.google.gson.JsonSyntaxException
 import com.google.gson.annotations.SerializedName
 import com.larrykapija.moviesapp.models.Dates
@@ -41,7 +42,8 @@ data class Movie(
 )
 
 fun Movie.toJson(): String {
-    return Gson().toJson(this)
+    val gson = GsonBuilder().serializeNulls().create()
+    return gson.toJson(this)
 }
 
 fun String.toMovie(): Movie? {
