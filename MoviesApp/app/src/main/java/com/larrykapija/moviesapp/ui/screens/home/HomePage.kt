@@ -27,10 +27,13 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.NavController
+import com.larrykapija.moviesapp.network.response.toJson
+import com.larrykapija.moviesapp.ui.navigation.Destinations
 import com.larrykapija.moviesapp.ui.screens.components.VerticalSpacer
 import com.larrykapija.moviesapp.ui.screens.home.components.BackgroundImage
-import com.larrykapija.moviesapp.ui.screens.home.components.MovieItem
+import com.larrykapija.moviesapp.ui.screens.home.components.HomePageMovieItem
 import com.larrykapija.moviesapp.ui.screens.home.components.MoviesGrid
+import java.net.URLEncoder
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -84,11 +87,17 @@ fun HomePage(
                     pageSize = PageSize.Fixed(200.dp),
                     contentPadding = PaddingValues(start = 100.dp)
                 ) { page ->
-                    MovieItem(
-                        movie = popularMovies[page],
+                    val movie = popularMovies[page]
+
+                    HomePageMovieItem(
+                        movie = movie,
                         index = page,
                         focusedItemIndex = pagerState.currentPage
-                    )
+                    ) {
+                        val movieJson = movie.toJson()
+                        val encodedMovie = URLEncoder.encode(movieJson, "UTF-8")
+                        navController.navigate("${Destinations.DetailsScreen}/${encodedMovie}")
+                    }
                 }
             }
 

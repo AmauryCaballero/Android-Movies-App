@@ -8,7 +8,10 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -18,11 +21,18 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.NavController
@@ -60,11 +70,12 @@ fun DetailsScreen(
                     .crossfade(true)
                     .build(),
                 contentScale = ContentScale.None,
-                contentDescription = "backdrop image",
+                contentDescription = movie.title,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(space.dp)
                     .aspectRatio(1.5f)
+                    .blur(5.dp)
             )
 
             Column(
@@ -73,33 +84,53 @@ fun DetailsScreen(
             ) {
 
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    ) {
+                    Modifier
+                        .fillMaxWidth()
+                        .height(50.dp)
+                ) {
+
+                    AsyncImage(
+                        model =  ImageRequest.Builder(LocalContext.current)
+                            .data("https://image.tmdb.org/t/p/w500${movie.posterPath}")
+                            .crossfade(true)
+                            .build(),
+                        contentScale = ContentScale.FillWidth,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .offset(y = (-80).dp)
+                            .size(120.dp)
+                            .aspectRatio(0.7f)
+                            .shadow(10.dp, shape = RoundedCornerShape(size = 10.dp))
+                            .clip(RoundedCornerShape(size = 10.dp))
+                    )
+
                     Text(
                         modifier = Modifier
+                            .offset(y = (-20).dp)
                             .align(Alignment.Bottom),
                         text = "${movie.title} ",
-                        style = MaterialTheme.typography.titleLarge.merge(MaterialTheme.colorScheme.onPrimary),
+                        overflow = TextOverflow.Visible,
+                        style = MaterialTheme.typography.titleLarge
+                            .merge(MaterialTheme.colorScheme.onPrimary),
                         textAlign = TextAlign.Center
                     )
-
-                    Text(
-                        modifier = Modifier
-                            .align(Alignment.Bottom)
-                            .padding(bottom = 6.dp),
-                        text = movie.releaseDate ?: "",
-                        style = MaterialTheme.typography.labelSmall.merge(MaterialTheme.colorScheme.onPrimary),
-                        textAlign = TextAlign.Center
-                    )
-
                 }
 
 
-                Spacer(modifier = Modifier
-                    .fillMaxWidth()
-                    .height(8.dp))
+                Text(
+                    modifier = Modifier
+                        .padding(bottom = 6.dp),
+                    text = movie.releaseDate ?: "",
+                    style = MaterialTheme.typography.labelSmall.merge(MaterialTheme.colorScheme.onPrimary),
+                    textAlign = TextAlign.Center
+                )
 
+
+                Spacer(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(8.dp)
+                )
 
                 Row {
                     if (details?.voteAverage != null) {
@@ -125,7 +156,7 @@ fun DetailsScreen(
                         )
 
                         Text(
-                            text = "${details.runtime}",
+                            text = "${details.runtime} minutes",
                             style = MaterialTheme.typography.labelSmall.merge(MaterialTheme.colorScheme.onPrimary),
                             modifier = Modifier.align(Alignment.CenterVertically),
                         )

@@ -24,6 +24,7 @@ val Typography = Typography(
         fontWeight = FontWeight.Medium,
         fontSize = 34.sp,
         letterSpacing = 0.5.sp,
+        lineHeight = 30.sp
     ),
     bodyMedium = TextStyle(
         fontFamily = JostFontFamily,
