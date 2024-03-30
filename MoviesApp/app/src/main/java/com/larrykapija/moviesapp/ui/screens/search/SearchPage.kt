@@ -55,6 +55,7 @@ import com.larrykapija.moviesapp.R
 import com.larrykapija.moviesapp.network.response.Movie
 import com.larrykapija.moviesapp.network.response.toJson
 import com.larrykapija.moviesapp.ui.navigation.Destinations
+import com.larrykapija.moviesapp.ui.screens.components.InfiniteAnimation
 import com.larrykapija.moviesapp.ui.screens.search.components.SearchMovieItem
 import com.larrykapija.moviesapp.ui.theme.MoviesAppTheme
 import com.larrykapija.moviesapp.viewmodel.SearchPageViewModel
@@ -134,25 +135,6 @@ fun SearchPage(
     }
 }
 
-@Composable
-private fun InfiniteAnimation(
-    modifier: Modifier,
-    res: Int
-) {
-    val composition by rememberLottieComposition(spec = LottieCompositionSpec.RawRes(res))
-    val progress by animateLottieCompositionAsState(
-        composition,
-        isPlaying = true,
-        restartOnPlay = true,
-        iterations = Int.MAX_VALUE
-    )
-
-    LottieAnimation(
-        composition = composition,
-        progress = { progress },
-        modifier = modifier
-    )
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)

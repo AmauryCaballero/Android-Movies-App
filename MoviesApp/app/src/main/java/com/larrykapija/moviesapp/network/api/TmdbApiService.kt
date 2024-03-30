@@ -9,7 +9,7 @@ import retrofit2.http.Query
 
 interface TmdbApiService {
 
-    @GET("search/collection")
+    @GET("search/movie")
     suspend fun getMoviesCollection(
         @Query("query") query: String = "",
         @Query("include_adult") includeAdult: Boolean = true,

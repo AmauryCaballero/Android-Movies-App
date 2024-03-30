@@ -35,10 +35,10 @@ data class Movie(
     val backdropPath: String?,
 
     @SerializedName("vote_average")
-    val voteAverage: Double?,
+    var voteAverage: Double?,
 
     @SerializedName("release_date")
-    val releaseDate: String?
+    var releaseDate: String?
 )
 
 fun Movie.toJson(): String {

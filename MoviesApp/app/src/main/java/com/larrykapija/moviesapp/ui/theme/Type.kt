@@ -35,7 +35,7 @@ val Typography = Typography(
     labelSmall = TextStyle(
         fontFamily = JostFontFamily,
         fontWeight = FontWeight.Light,
-        fontSize = 20.sp,
+        fontSize = 18.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp,
     ),
