@@ -1,6 +1,8 @@
 package com.larrykapija.moviesapp.ui.screens.details
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -37,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.larrykapija.moviesapp.R
 import com.larrykapija.moviesapp.ui.screens.components.InfiniteAnimation
@@ -99,6 +102,7 @@ fun DetailsScreen(
                         modifier = Modifier
                             .offset(y = (-80).dp)
                             .size(120.dp)
+                            .padding(end = 5.dp)
                             .aspectRatio(0.7f)
                             .shadow(10.dp, shape = RoundedCornerShape(size = 10.dp))
                             .clip(RoundedCornerShape(size = 10.dp))

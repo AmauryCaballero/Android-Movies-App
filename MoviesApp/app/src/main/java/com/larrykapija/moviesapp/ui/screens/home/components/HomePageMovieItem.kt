@@ -50,6 +50,8 @@ fun HomePageMovieItem(
         ), label = "movie item bottom padding animation"
     )
 
+    val shape = RoundedCornerShape(size = 30.dp)
+
     AsyncImage(
         model = ImageRequest.Builder(LocalContext.current)
             .data("https://image.tmdb.org/t/p/w500${movie.posterPath}")
@@ -69,6 +71,10 @@ fun HomePageMovieItem(
                 scaleY = scale
             }
             .size(200.dp, 300.dp)
-            .clip(RoundedCornerShape(size = 30.dp))
+            .shadow(
+                5.dp,
+                shape = shape
+            )
+            .clip(shape)
     )
 }

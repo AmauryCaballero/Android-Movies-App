@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.NavController
+import com.larrykapija.moviesapp.network.response.Movie
 import com.larrykapija.moviesapp.network.response.toJson
 import com.larrykapija.moviesapp.ui.navigation.Destinations
 import com.larrykapija.moviesapp.ui.screens.components.VerticalSpacer
@@ -50,6 +51,12 @@ fun HomePage(
     val pagerState = rememberPagerState(pageCount = {
         popularMovies.size
     })
+
+    fun navigateToDetails(movie: Movie) {
+        val movieJson = movie.toJson()
+        val encodedMovie = URLEncoder.encode(movieJson, "UTF-8")
+        navController.navigate("${Destinations.DetailsScreen}/${encodedMovie}")
+    }
 
     Box(
         modifier = Modifier.padding(innerPadding),
@@ -107,11 +114,29 @@ fun HomePage(
 
                     Column {
 
-                        MoviesGrid(title = "Playing now", moviesList = nowPlayingMovies)
+                        MoviesGrid(
+                            title = "Playing now",
+                            moviesList = nowPlayingMovies,
+                            onMovieClicked = { movie ->
+                                navigateToDetails(movie)
+                            }
+                        )
 
-                        MoviesGrid(title = "Top rated", moviesList = topRatedMovies)
+                        MoviesGrid(
+                            title = "Top rated",
+                            moviesList = topRatedMovies,
+                            onMovieClicked = { movie ->
+                                navigateToDetails(movie)
+                            }
+                        )
 
-                        MoviesGrid(title = "Upcoming", moviesList = upcomingMovies)
+                        MoviesGrid(
+                            title = "Upcoming",
+                            moviesList = upcomingMovies,
+                            onMovieClicked = { movie ->
+                                navigateToDetails(movie)
+                            }
+                        )
                     }
                 }
             }
