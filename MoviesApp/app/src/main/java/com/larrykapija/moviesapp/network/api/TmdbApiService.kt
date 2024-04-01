@@ -2,6 +2,7 @@ package com.larrykapija.moviesapp.network.api
 
 import com.larrykapija.moviesapp.network.response.MovieDetails
 import com.larrykapija.moviesapp.network.response.MovieResponse
+import com.larrykapija.moviesapp.network.response.VideoResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -9,7 +10,13 @@ import retrofit2.http.Query
 
 interface TmdbApiService {
 
-    @GET("search/collection")
+    @GET("movie/{movie_id}/videos")
+    suspend fun getMovieVideos(
+        @Path("movie_id") movieId: Int,
+        @Query("language") language: String = "en-US"
+    ): Response<VideoResponse>
+
+    @GET("search/movie")
     suspend fun getMoviesCollection(
         @Query("query") query: String = "",
         @Query("include_adult") includeAdult: Boolean = true,

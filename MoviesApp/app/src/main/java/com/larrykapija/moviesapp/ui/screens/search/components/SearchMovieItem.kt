@@ -24,8 +24,11 @@ import com.larrykapija.moviesapp.network.response.Movie
 
 
 @Composable
-fun SearchMovieItem(movie: Movie) {
-    Box(modifier = Modifier
+fun SearchMovieItem(
+    modifier: Modifier,
+    movie: Movie
+) {
+    Box(modifier
         .fillMaxWidth()
         .padding(8.dp)
         .clip(RoundedCornerShape(8.dp))

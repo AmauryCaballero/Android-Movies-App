@@ -1,5 +1,8 @@
 package com.larrykapija.moviesapp.network.response
 
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonSyntaxException
 import com.google.gson.annotations.SerializedName
 import com.larrykapija.moviesapp.models.Dates
 
@@ -32,8 +35,21 @@ data class Movie(
     val backdropPath: String?,
 
     @SerializedName("vote_average")
-    val voteAverage: Double?,
+    var voteAverage: Double?,
 
     @SerializedName("release_date")
-    val releaseDate: String?
+    var releaseDate: String?
 )
+
+fun Movie.toJson(): String {
+    val gson = GsonBuilder().serializeNulls().create()
+    return gson.toJson(this)
+}
+
+fun String.toMovie(): Movie? {
+    return try {
+        Gson().fromJson(this, Movie::class.java)
+    } catch (e: JsonSyntaxException) {
+        null
+    }
+}

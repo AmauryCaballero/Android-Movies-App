@@ -4,6 +4,7 @@ import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.TweenSpec
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -11,6 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -19,7 +22,12 @@ import coil.request.ImageRequest
 import com.larrykapija.moviesapp.network.response.Movie
 
 @Composable
-fun MovieItem(movie: Movie, index: Int, focusedItemIndex: Int) {
+fun HomePageMovieItem(
+    movie: Movie,
+    index: Int,
+    focusedItemIndex: Int,
+    onClick: () -> Unit
+) {
     val isFocused = index == focusedItemIndex
 
     val rotationDegrees by animateFloatAsState(targetValue = when {
@@ -42,6 +50,8 @@ fun MovieItem(movie: Movie, index: Int, focusedItemIndex: Int) {
         ), label = "movie item bottom padding animation"
     )
 
+    val shape = RoundedCornerShape(size = 30.dp)
+
     AsyncImage(
         model = ImageRequest.Builder(LocalContext.current)
             .data("https://image.tmdb.org/t/p/w500${movie.posterPath}")
@@ -53,6 +63,7 @@ fun MovieItem(movie: Movie, index: Int, focusedItemIndex: Int) {
                 top = if (isFocused) 0.dp else 30.dp,
                 bottom = bottomPadding
             )
+            .clickable { onClick() }
             .graphicsLayer {
                 rotationZ = rotationDegrees
                 this.alpha = alpha
@@ -60,6 +71,10 @@ fun MovieItem(movie: Movie, index: Int, focusedItemIndex: Int) {
                 scaleY = scale
             }
             .size(200.dp, 300.dp)
-            .clip(RoundedCornerShape(size = 30.dp))
+            .shadow(
+                5.dp,
+                shape = shape
+            )
+            .clip(shape)
     )
 }

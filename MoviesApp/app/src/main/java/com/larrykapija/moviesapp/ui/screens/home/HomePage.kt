@@ -26,14 +26,20 @@ import com.larrykapija.moviesapp.viewmodel.HomePageViewModel
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
+import androidx.navigation.NavController
+import com.larrykapija.moviesapp.network.response.Movie
+import com.larrykapija.moviesapp.network.response.toJson
+import com.larrykapija.moviesapp.ui.navigation.Destinations
 import com.larrykapija.moviesapp.ui.screens.components.VerticalSpacer
 import com.larrykapija.moviesapp.ui.screens.home.components.BackgroundImage
-import com.larrykapija.moviesapp.ui.screens.home.components.MovieItem
+import com.larrykapija.moviesapp.ui.screens.home.components.HomePageMovieItem
 import com.larrykapija.moviesapp.ui.screens.home.components.MoviesGrid
+import java.net.URLEncoder
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomePage(
+    navController: NavController,
     innerPadding: PaddingValues,
     viewModel: HomePageViewModel = viewModel(LocalContext.current as ViewModelStoreOwner)
 ) {
@@ -45,6 +51,12 @@ fun HomePage(
     val pagerState = rememberPagerState(pageCount = {
         popularMovies.size
     })
+
+    fun navigateToDetails(movie: Movie) {
+        val movieJson = movie.toJson()
+        val encodedMovie = URLEncoder.encode(movieJson, "UTF-8")
+        navController.navigate("${Destinations.DetailsScreen}/${encodedMovie}")
+    }
 
     Box(
         modifier = Modifier.padding(innerPadding),
@@ -82,11 +94,17 @@ fun HomePage(
                     pageSize = PageSize.Fixed(200.dp),
                     contentPadding = PaddingValues(start = 100.dp)
                 ) { page ->
-                    MovieItem(
-                        movie = popularMovies[page],
+                    val movie = popularMovies[page]
+
+                    HomePageMovieItem(
+                        movie = movie,
                         index = page,
                         focusedItemIndex = pagerState.currentPage
-                    )
+                    ) {
+                        val movieJson = movie.toJson()
+                        val encodedMovie = URLEncoder.encode(movieJson, "UTF-8")
+                        navController.navigate("${Destinations.DetailsScreen}/${encodedMovie}")
+                    }
                 }
             }
 
@@ -96,11 +114,29 @@ fun HomePage(
 
                     Column {
 
-                        MoviesGrid(title = "Playing now", moviesList = nowPlayingMovies)
+                        MoviesGrid(
+                            title = "Playing now",
+                            moviesList = nowPlayingMovies,
+                            onMovieClicked = { movie ->
+                                navigateToDetails(movie)
+                            }
+                        )
 
-                        MoviesGrid(title = "Top rated", moviesList = topRatedMovies)
+                        MoviesGrid(
+                            title = "Top rated",
+                            moviesList = topRatedMovies,
+                            onMovieClicked = { movie ->
+                                navigateToDetails(movie)
+                            }
+                        )
 
-                        MoviesGrid(title = "Upcoming", moviesList = upcomingMovies)
+                        MoviesGrid(
+                            title = "Upcoming",
+                            moviesList = upcomingMovies,
+                            onMovieClicked = { movie ->
+                                navigateToDetails(movie)
+                            }
+                        )
                     }
                 }
             }
